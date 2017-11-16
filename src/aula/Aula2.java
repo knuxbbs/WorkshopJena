@@ -10,20 +10,20 @@ public class Aula2 {
 
 	public static void main(String args[]){
 		
-		Model futebol1 = ModelFactory.createDefaultModel();
-		Model futebol2 = ModelFactory.createDefaultModel();
+		Model M_grupo1 = ModelFactory.createDefaultModel();
+		Model M_grupo2 = ModelFactory.createDefaultModel();
 		
-		String a = "RDF01.xml";
+		String a = "RDFGrupo1.xml";
 		InputStream in = FileManager.get().open(a);
 
-		futebol1.read(in, null);
+		M_grupo1.read(in, null);
 
-		String b = "RDF02.xml";
+		String b = "RDFGrupo2.xml";
 		InputStream in2 = FileManager.get().open(b);
 
-		futebol2.read(in2, null);
+		M_grupo2.read(in2, null);
 				
-		Model result = futebol1.union(futebol2);
+		Model result = M_grupo1.union(M_grupo2);
 		
 		result.write(System.out);
 		
