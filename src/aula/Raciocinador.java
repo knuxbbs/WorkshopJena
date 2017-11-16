@@ -22,7 +22,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 public class Raciocinador {
 	public static void main(String args[]) {
 
-		String inputFileName  = "C:/Ont.xml";
+		String inputFileName  = "Onto1.xml";
 		OntModel ontModel = ModelFactory.createOntologyModel();
 	    InputStream in = FileManager.get().open(inputFileName);
 	    
@@ -31,7 +31,7 @@ public class Raciocinador {
 	    }
 	    ontModel.read(in, "");
 
-	    String ns = "http://www.fake.org/futebol/ontology#";
+	    String ns = "http://www.exemplo.com/onto1#";
 	    
 	    OntClass clube=ontModel.createClass(ns+"clube");
 	    clube.addSameAs(ontModel.getOntClass(ns + "Time"));

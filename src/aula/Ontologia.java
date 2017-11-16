@@ -4,27 +4,34 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.ontology.AllValuesFromRestriction;
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.IntersectionClass;
+import org.apache.jena.ontology.MaxCardinalityRestriction;
+import org.apache.jena.ontology.MinCardinalityRestriction;
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.Ontology;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.XSD;
 
 public class Ontologia {
 
+	/**
+	 * @param args
+	 */
 	public static void main(String args[]) {
 
 		//criando um modelo de ontologia vazio
 		OntModel ontModel = ModelFactory.createOntologyModel();
 		String ns = "http://www.exemplo.com/onto1#";
-		String uri = new String("http://www.exemplo.com/onto1");
-		Ontology onto = ontModel.createOntology(uri);
-
+		
 		//criando as classes
 		OntClass pessoa = ontModel.createClass(ns + "Pessoa");
 		OntClass masculino = ontModel.createClass(ns + "Masculino");
@@ -67,6 +74,44 @@ public class Ontologia {
 		
 		ontModel.add(joaoIrmaoMaria);
 		ontModel.add(mariaIrmaoJoao);
+		
+		
+		//propriedades restritivas
+		ObjectProperty temConjuge = ontModel.createObjectProperty(ns + "temConjuge");
+		
+		temConjuge.setDomain(pessoa);
+		temConjuge.setRange(pessoa);
+		
+		Statement joseConjMaria = ontModel.createStatement(jose,  temConjuge,  maria);
+		Statement mariaConjJose = ontModel.createStatement(maria,  temConjuge,  jose);
+		
+		ontModel.add(joseConjMaria);
+		ontModel.add(mariaConjJose);
+		
+		//restrições
+		AllValuesFromRestriction soFeminino = ontModel.createAllValuesFromRestriction(null, temConjuge, feminino);
+		
+		MaxCardinalityRestriction maximo1Conjuge = ontModel.createMaxCardinalityRestriction(null,  temConjuge, 1);
+		
+		//restrigindo classe Masculino
+		masculino.addSuperClass(soFeminino);
+		masculino.addSuperClass(maximo1Conjuge);
+		
+		
+		//classes definidas
+		OntClass pessoaCasada = ontModel.createClass(ns + "PessoaCasada");
+		
+		//MinCardinalityRestriction createMinCardinalityRestriction(String uri, Property prop,int cardinality)
+		MinCardinalityRestriction minimo1Conjuge = ontModel.createMinCardinalityRestriction(null,  temConjuge,  1);
+		
+		//criando lista para conter a classe Pessoa e a restrição
+		RDFNode[] restricoesArray = { pessoa, minimo1Conjuge };
+		RDFList restricoes = ontModel.createList(restricoesArray);
+		
+		IntersectionClass ic = ontModel.createIntersectionClass(null, restricoes);
+		
+		pessoaCasada.setEquivalentClass(ic);
+		
 		
 		String fileName = "Onto1.xml";
 		FileWriter out;
