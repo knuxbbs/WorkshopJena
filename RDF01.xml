@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://disciplina.dcc.ufba.br/MATC93/Marginais#">
+  <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#tecnico_c">
+    <j.0:treina>
+      <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#time_c">
+        <j.0:tem_nome>Corinthians</j.0:tem_nome>
+      </rdf:Description>
+    </j.0:treina>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#posicao_a">
+    <j.0:tem_nome>Atacante</j.0:tem_nome>
+  </rdf:Description>
+</rdf:RDF>
