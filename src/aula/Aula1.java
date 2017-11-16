@@ -16,60 +16,68 @@ public class Aula1 {
 
 	public static void main(String args[]) throws IOException {
 		
-		Model futebol = ModelFactory.createDefaultModel();
-		
-		String ns = "http://disciplina.dcc.ufba.br/MATC93/Marginais#";
-		
-		// Recurso
-				
-		Resource time_c= futebol.createResource(ns + "time_c");
-				
-		Resource tecnico_c = futebol.createResource(ns + "tecnico_c");
-		
-		Resource jogador_c = futebol.createResource(ns + "jogador_c");
-		
-		Resource posicao_a = futebol.createResource(ns + "posicao_a");
-		
-		// Propriedades
-		
-		Property treina = futebol.createProperty(ns, "treina");
-		Property tem_nome = futebol.createProperty(ns, "tem_nome");
-		Property joga_como = futebol.createProperty(ns, "joga_como");
-		Property joga_no = futebol.createProperty(ns, "joga_no");
-					
+		String ns = "http://www.exemplo.com/grupo#";
+		Model M_grupo = ModelFactory.createDefaultModel();
 
-		// Literal
+		// **** Recurso
 		
-		Literal titi =  futebol.createLiteral("Titi");
-		Literal corinthians = futebol.createLiteral("Corinthians");
-		Literal pato = futebol.createLiteral("Pato");
-		Literal atacante = futebol.createLiteral("Atacante");
+		Resource R_grupo = M_grupo.createResource(ns + "TrabalhoJena");
+		Resource R_joao = M_grupo.createResource(ns + "Joao");
+		Resource R_maria = M_grupo.createResource(ns + "Maria");
+		
+		// **** Propriedades
+		
+		Property P_pertenceAoGrupo = M_grupo.createProperty(ns, "Participa_do_grupo");
+		Property P_NumTelefone = M_grupo.createProperty(ns, "Numero_telefone");
+		Property P_NomeCompleto = M_grupo.createProperty(ns, "NomeCompleto");
+		Property P_NomeGrupo = M_grupo.createProperty(ns, "NomeGrupo");
+		
+		// **** Literal
+		
+		Literal L_NomeDoGrupo =  M_grupo.createLiteral("Workshop sobre o Jena");
+		Literal L_NomeMaria =  M_grupo.createLiteral("Maria Andrade");
+		Literal L_NomeJoao = M_grupo.createLiteral("Joao Souza");
+		Literal L_TelefoneMaria =  M_grupo.createLiteral("3330-1111");
+		Literal L_TelefoneJoao = M_grupo.createLiteral("3330-2222");
 		
 		
-		// Statements (Tripla)
+		// **** Statements (Tripla)
 		
+		//Adicionando nome do grupo
+		Statement T_nome_grupo = M_grupo.createStatement(R_grupo, P_NomeGrupo, L_NomeDoGrupo);
+		M_grupo.add(T_nome_grupo);
 		
-		Statement tecnico_time_c = futebol.createStatement(tecnico_c, treina, time_c);
-		futebol.add(tecnico_time_c);
+		//Adicionando pessoas ao grupo
+		Statement T_ParticipanteGrupo_Joao = M_grupo.createStatement(R_grupo, P_pertenceAoGrupo, R_joao);
+		M_grupo.add(T_ParticipanteGrupo_Joao);		
 		
+		Statement T_ParticipanteGrupo_Maria = M_grupo.createStatement(R_grupo, P_pertenceAoGrupo, R_maria);
+		M_grupo.add(T_ParticipanteGrupo_Maria);		
 		
+		//Adicionando nome das pessoas
+		Statement T_Nome_Maria = M_grupo.createStatement(R_maria, P_NomeCompleto, L_NomeMaria);
+		M_grupo.add(T_Nome_Maria);
 		
-		Statement nome_time = futebol.createStatement(time_c, tem_nome, corinthians);
-		futebol.add(nome_time);
+		Statement T_Nome_Joao = M_grupo.createStatement(R_joao, P_NomeCompleto, L_NomeJoao);
+		M_grupo.add(T_Nome_Joao);		
+
+		//Adicionando Telefone das pessoas
+		Statement T_Telefone_Maria = M_grupo.createStatement(R_maria, P_NumTelefone, L_TelefoneMaria);
+		M_grupo.add(T_Telefone_Maria);
 		
-		Statement nome_posicao_c = futebol.createStatement(posicao_a, tem_nome, atacante);
-		futebol.add(nome_posicao_c);
+		Statement T_Telefone_Joao = M_grupo.createStatement(R_joao, P_NumTelefone, L_TelefoneJoao);
+		M_grupo.add(T_Telefone_Joao);	
+
 		
-		//futebol.write(System.out);
+		M_grupo.write(System.out);
 		
 		//Escrever no arquivo
 		
-		String fileName = "RDF01.xml";
-		FileWriter out = new FileWriter(fileName);
-		futebol.write(out);
+		//String fileName = "RDFGrupo.xml";
+		//FileWriter out = new FileWriter(fileName);
+		//M_grupo.write(out);
 		
 		//------------------------------------------------------------------------------------
-		
 		
 		
 	}
