@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://disciplina.dcc.ufba.br/MATC93/Marginais#">
+  <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#tecnico_c">
+    <j.0:tem_nome>Titi</j.0:tem_nome>
+    <j.0:treina>
+      <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#time_c">
+        <j.0:tem_nome>Corinthians</j.0:tem_nome>
+        <j.0:joga_contra>
+          <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#time_f">
+            <j.0:tem_nome>Flamengo</j.0:tem_nome>
+          </rdf:Description>
+        </j.0:joga_contra>
+      </rdf:Description>
+    </j.0:treina>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#jogador_c">
+    <j.0:tem_nome>Pato</j.0:tem_nome>
+    <j.0:joga_como>
+      <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#posicao_a">
+        <j.0:tem_nome>Atacante</j.0:tem_nome>
+      </rdf:Description>
+    </j.0:joga_como>
+    <j.0:joga_no rdf:resource="http://disciplina.dcc.ufba.br/MATC93/Marginais#time_c"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#jogador_f">
+    <j.0:tem_nome>Hernane</j.0:tem_nome>
+    <j.0:joga_como rdf:resource="http://disciplina.dcc.ufba.br/MATC93/Marginais#posicao_a"/>
+    <j.0:joga_no rdf:resource="http://disciplina.dcc.ufba.br/MATC93/Marginais#time_f"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://disciplina.dcc.ufba.br/MATC93/Marginais#tecnico_f">
+    <j.0:tem_nome>Jayme de Almeida</j.0:tem_nome>
+    <j.0:treina rdf:resource="http://disciplina.dcc.ufba.br/MATC93/Marginais#time_f"/>
+  </rdf:Description>
+</rdf:RDF>
