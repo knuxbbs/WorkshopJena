@@ -1,84 +1,82 @@
 package aula;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.Ontology;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.vocabulary.XSD;
 
 public class Ontologia {
 
 	public static void main(String args[]) {
 
-		OntModel futebolOntModel = ModelFactory.createOntologyModel();
+		//criando um modelo de ontologia vazio
+		OntModel ontModel = ModelFactory.createOntologyModel();
+		String ns = "http://www.exemplo.com/onto1#";
+		String uri = new String("http://www.exemplo.com/onto1");
+		Ontology onto = ontModel.createOntology(uri);
 
-		String ns = "http://www.fake.org/futebol/ontology#";
-
-		OntClass time = futebolOntModel.createClass(ns + "Time");
-		OntClass pessoa = futebolOntModel.createClass(ns + "Pessoa");
-		OntClass campeonato = futebolOntModel.createClass(ns + "Campeonato");
-
-		OntClass jogador = futebolOntModel.createClass(ns + "Jogador");
-		OntClass tecnico = futebolOntModel.createClass(ns + "Tecnico");
-		OntClass copaDoMundo = futebolOntModel.createClass(ns + "Copa");
-		OntClass liga = futebolOntModel.createClass(ns + "Liga");
-
-		pessoa.addSubClass(jogador);
-		pessoa.addSubClass(tecnico);
-
-		campeonato.addSubClass(copaDoMundo);
-		campeonato.addSubClass(liga);
-
-		liga.addDisjointWith(copaDoMundo);
-		tecnico.addDisjointWith(jogador);
-
-		ObjectProperty jogaContra = futebolOntModel.createObjectProperty(ns
-				+ "jogaCom");
-		ObjectProperty enfrenta = futebolOntModel.createObjectProperty(ns
-				+ "enfrenta");
-		ObjectProperty pertence = futebolOntModel.createObjectProperty(ns
-				+ "pertence");
-		ObjectProperty titular = futebolOntModel.createObjectProperty(ns
-				+ "titular");
-		ObjectProperty escolhe = futebolOntModel.createObjectProperty(ns
-				+ "escolhe");
-		ObjectProperty escolhido = futebolOntModel.createObjectProperty(ns
-				+ "escolhido") ;
-		// OntProperty disputadas =
-		// futebolOntModel.createObjectProperty("Disputa");
-
-		jogaContra.addDomain(time);
-		jogaContra.addRange(time);
-
-		futebolOntModel.createMaxCardinalityRestriction(ns + "pertence",
-				pertence, 1);
-		futebolOntModel.createMaxCardinalityRestriction(ns + "maxTitular",
-				titular, 11);
-
-		pertence.addDomain(jogador);
-		pertence.addRange(time);
-
-		titular.addDomain(time);
-		titular.addRange(jogador);
-
-		escolhe.addDomain(tecnico);
-		escolhe.addRange(jogador);
-
-		escolhe.addInverseOf(escolhido);
-
-		jogaContra.addEquivalentProperty(enfrenta);
+		//criando as classes
+		OntClass pessoa = ontModel.createClass(ns + "Pessoa");
+		OntClass masculino = ontModel.createClass(ns + "Masculino");
+		OntClass feminino = ontModel.createClass(ns + "Feminino");
 		
-		Individual flamengo = time.createIndividual(ns+"flamengo");
-		Individual corinthians = time.createIndividual(ns+"timao");
+		//defininindo subclasses
+		pessoa.addSubClass(masculino);	
+		pessoa.addSubClass(feminino);
+
+		//disjunção
+		masculino.addDisjointWith(feminino);
+		feminino.addDisjointWith(masculino);
+
+		//propriedade de tipo de dado + domínio + range
+		DatatypeProperty temIdade = ontModel.createDatatypeProperty(ns + "temIdade");
+		temIdade.setDomain(pessoa);
+		temIdade.setRange(XSD.integer);
 		
+		//individuals
+		Individual joao = masculino.createIndividual(ns + "João");
+		Individual maria = feminino.createIndividual(ns + "Maria");
+		Individual jose = masculino.createIndividual(ns + "José");
 		
-		Statement jogoDeHj = futebolOntModel.createStatement(flamengo, enfrenta, corinthians);
+		//literal
+		Literal idade20 = ontModel.createTypedLiteral("20", XSDDatatype.XSDint);
 		
-		futebolOntModel.add(jogoDeHj);
+		//sentença
+		Statement joaoTem20 = ontModel.createStatement(joao,  temIdade, idade20);
 		
+		ontModel.add(joaoTem20);
 		
+		//propriedade de objeto + domínio + range
+		ObjectProperty temIrmao = ontModel.createObjectProperty(ns + "temIrmao");
+		temIrmao.setDomain(pessoa);
+		temIrmao.setRange(pessoa);
 		
+		//sentenças
+		Statement joaoIrmaoMaria = ontModel.createStatement(joao, temIrmao, maria);
+		Statement mariaIrmaoJoao = ontModel.createStatement(maria, temIrmao, joao);
+		
+		ontModel.add(joaoIrmaoMaria);
+		ontModel.add(mariaIrmaoJoao);
+		
+		String fileName = "Onto1.xml";
+		FileWriter out;
+		try {
+			out = new FileWriter(fileName);
+			ontModel.write(out);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		
 	}
 }
