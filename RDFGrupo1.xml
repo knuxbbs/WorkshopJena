@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://www.exemplo.com/grupo#">
+  <rdf:Description rdf:about="http://www.exemplo.com/grupo#TrabalhoJena">
+    <j.0:Participa_do_grupo>
+      <rdf:Description rdf:about="http://www.exemplo.com/grupo#Maria">
+        <j.0:Numero_telefone>3330-1111</j.0:Numero_telefone>
+        <j.0:NomeCompleto>Maria Andrade</j.0:NomeCompleto>
+      </rdf:Description>
+    </j.0:Participa_do_grupo>
+    <j.0:Participa_do_grupo>
+      <rdf:Description rdf:about="http://www.exemplo.com/grupo#Joao">
+        <j.0:Numero_telefone>3330-2222</j.0:Numero_telefone>
+        <j.0:NomeCompleto>Joao Souza</j.0:NomeCompleto>
+      </rdf:Description>
+    </j.0:Participa_do_grupo>
+    <j.0:NomeGrupo>Workshop sobre o Jena</j.0:NomeGrupo>
+  </rdf:Description>
+</rdf:RDF>

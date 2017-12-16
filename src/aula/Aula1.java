@@ -73,9 +73,9 @@ public class Aula1 {
 		
 		//Escrever no arquivo
 		
-		//String fileName = "RDFGrupo.xml";
-		//FileWriter out = new FileWriter(fileName);
-		//M_grupo.write(out);
+		String fileName = "RDFGrupo1.xml";
+		FileWriter out = new FileWriter(fileName);
+		M_grupo.write(out);
 		
 		//------------------------------------------------------------------------------------
 		

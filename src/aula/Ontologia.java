@@ -111,8 +111,9 @@ public class Ontologia {
 		
 		pessoaCasada.setEquivalentClass(ic);
 		
+		ontModel.write(System.out, "N-TRIPLE");
 		
-		String fileName = "Onto1.xml";
+		/*String fileName = "Onto3.xml";
 		FileWriter out;
 		try {
 			out = new FileWriter(fileName);
@@ -120,7 +121,7 @@ public class Ontologia {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}	*/
 		
 	}
 }
