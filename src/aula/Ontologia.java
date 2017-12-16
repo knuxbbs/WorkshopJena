@@ -111,6 +111,7 @@ public class Ontologia {
 		
 		pessoaCasada.setEquivalentClass(ic);
 		
+		ontModel.write(System.out, "N-TRIPLE");
 		
 		String fileName = "Onto1.xml";
 		FileWriter out;
