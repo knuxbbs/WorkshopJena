@@ -14,7 +14,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 public class Raciocinador {
 	public static void main(String args[]) {
 
-		String inputFileName  = "Onto3.xml";		
+		String inputFileName  = "Onto1.xml";		
 		InputStream in = FileManager.get().open(inputFileName);
 
 		if (in == null) {
