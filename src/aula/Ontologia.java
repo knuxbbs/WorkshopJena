@@ -27,101 +27,99 @@ public class Ontologia {
 	 */
 	public static void main(String args[]) {
 
-		//criando um modelo de ontologia vazio
+		// criando um modelo de ontologia vazio
 		OntModel ontModel = ModelFactory.createOntologyModel();
 		String ns = "http://www.exemplo.com/onto1#";
-		
-		//criando as classes
+
+		// criando as classes
 		OntClass pessoa = ontModel.createClass(ns + "Pessoa");
 		OntClass masculino = ontModel.createClass(ns + "Masculino");
 		OntClass feminino = ontModel.createClass(ns + "Feminino");
-		
-		//defininindo subclasses
-		pessoa.addSubClass(masculino);	
+
+		// defininindo subclasses
+		pessoa.addSubClass(masculino);
 		pessoa.addSubClass(feminino);
 
-		//disjunção
+		// disjunï¿½ï¿½o
 		masculino.addDisjointWith(feminino);
 		feminino.addDisjointWith(masculino);
 
-		//propriedade de tipo de dado + domínio + range
+		// propriedade de tipo de dado + domï¿½nio + range
 		DatatypeProperty temIdade = ontModel.createDatatypeProperty(ns + "temIdade");
 		temIdade.setDomain(pessoa);
 		temIdade.setRange(XSD.integer);
-		
-		//individuals
-		Individual joao = masculino.createIndividual(ns + "João");
+
+		// individuals
+		Individual joao = masculino.createIndividual(ns + "Joï¿½o");
 		Individual maria = feminino.createIndividual(ns + "Maria");
-		Individual jose = masculino.createIndividual(ns + "José");
-		
-		//literal
+		Individual jose = masculino.createIndividual(ns + "Josï¿½");
+
+		// literal
 		Literal idade20 = ontModel.createTypedLiteral("20", XSDDatatype.XSDint);
-		
-		//sentença
-		Statement joaoTem20 = ontModel.createStatement(joao,  temIdade, idade20);
-		
+
+		// sentenï¿½a
+		Statement joaoTem20 = ontModel.createStatement(joao, temIdade, idade20);
+
 		ontModel.add(joaoTem20);
-		
-		//propriedade de objeto + domínio + range
+
+		// propriedade de objeto + domï¿½nio + range
 		ObjectProperty temIrmao = ontModel.createObjectProperty(ns + "temIrmao");
 		temIrmao.setDomain(pessoa);
 		temIrmao.setRange(pessoa);
-		
-		//sentenças
+
+		// sentenï¿½as
 		Statement joaoIrmaoMaria = ontModel.createStatement(joao, temIrmao, maria);
 		Statement mariaIrmaoJoao = ontModel.createStatement(maria, temIrmao, joao);
-		
+
 		ontModel.add(joaoIrmaoMaria);
 		ontModel.add(mariaIrmaoJoao);
-		
-		
-		//propriedades restritivas
+
+		// propriedades restritivas
 		ObjectProperty temConjuge = ontModel.createObjectProperty(ns + "temConjuge");
-		
+
 		temConjuge.setDomain(pessoa);
 		temConjuge.setRange(pessoa);
-		
-		Statement joseConjMaria = ontModel.createStatement(jose,  temConjuge,  maria);
-		Statement mariaConjJose = ontModel.createStatement(maria,  temConjuge,  jose);
-		
+
+		Statement joseConjMaria = ontModel.createStatement(jose, temConjuge, maria);
+		Statement mariaConjJose = ontModel.createStatement(maria, temConjuge, jose);
+
 		ontModel.add(joseConjMaria);
 		ontModel.add(mariaConjJose);
-		
-		//restrições
+
+		// restriï¿½ï¿½es
 		AllValuesFromRestriction soFeminino = ontModel.createAllValuesFromRestriction(null, temConjuge, feminino);
-		
-		MaxCardinalityRestriction maximo1Conjuge = ontModel.createMaxCardinalityRestriction(null,  temConjuge, 1);
-		
-		//restrigindo classe Masculino
+
+		MaxCardinalityRestriction maximo1Conjuge = ontModel.createMaxCardinalityRestriction(null, temConjuge, 1);
+
+		// restrigindo classe Masculino
 		masculino.addSuperClass(soFeminino);
 		masculino.addSuperClass(maximo1Conjuge);
-		
-		
-		//classes definidas
+
+		// classes definidas
 		OntClass pessoaCasada = ontModel.createClass(ns + "PessoaCasada");
-		
-		//MinCardinalityRestriction createMinCardinalityRestriction(String uri, Property prop,int cardinality)
-		MinCardinalityRestriction minimo1Conjuge = ontModel.createMinCardinalityRestriction(null,  temConjuge,  1);
-		
-		//criando lista para conter a classe Pessoa e a restrição
+
+		// MinCardinalityRestriction createMinCardinalityRestriction(String uri,
+		// Property prop,int cardinality)
+		MinCardinalityRestriction minimo1Conjuge = ontModel.createMinCardinalityRestriction(null, temConjuge, 1);
+
+		// criando lista para conter a classe Pessoa e a restriï¿½ï¿½o
 		RDFNode[] restricoesArray = { pessoa, minimo1Conjuge };
 		RDFList restricoes = ontModel.createList(restricoesArray);
-		
+
 		IntersectionClass ic = ontModel.createIntersectionClass(null, restricoes);
-		
+
 		pessoaCasada.setEquivalentClass(ic);
-		
+
 		ontModel.write(System.out, "N-TRIPLE");
-		
+
 		String fileName = "Onto1.xml";
 		FileWriter out;
+		
 		try {
 			out = new FileWriter(fileName);
 			ontModel.write(out);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-		
+		}
 	}
 }

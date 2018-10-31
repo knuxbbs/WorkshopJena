@@ -13,7 +13,6 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 
 public class Raciocinador {
 	public static void main(String args[]) {
-
 		String inputFileName  = "Onto1.xml";		
 		InputStream in = FileManager.get().open(inputFileName);
 
@@ -23,23 +22,23 @@ public class Raciocinador {
 
 		String ns = "http://www.exemplo.com/onto1#";  
 
-		//faz uma pré construção da configuração padrão do raciocinador OWL
+		//faz uma prÃ© construÃ§Ã£o da configuraÃ§Ã£o padrÃ£o do raciocinador OWL
 		Reasoner raciocinador = ReasonerRegistry.getOWLReasoner();
 		
-		// Obtendo a especificação OWL-DL
+		// Obtendo a especificaÃ§Ã£o OWL-DL
 		OntModelSpec especRacioc = OntModelSpec.OWL_DL_MEM;
 		especRacioc.setReasoner(raciocinador);
 		
-		// Criando o modelo com a especificação com suporte a inferência
+		// Criando o modelo com a especificaÃ§Ã£o com suporte a inferÃªncia
 		OntModel ontModel = ModelFactory.createOntologyModel(especRacioc);
 		ontModel.read(in, "");
 		
 		OntClass pessoaCasada = ontModel.getOntClass(ns + "PessoaCasada");
 		ExtendedIterator casados = pessoaCasada.listInstances();
+		
 		while(casados.hasNext()) {
 			OntResource casado = (OntResource) casados.next();
 			System.out.println(casado.getURI());
 		}
 	}
-
 }
